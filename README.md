@@ -89,9 +89,10 @@ MASQUERADE. Setting pada UML Surabaya dengan syntax sebagai berikut :
 
 
 **2).** Kalian diminta untuk mendrop semua akses SSH dari luar Topologi (UML) Kalian pada server
-yang memiliki ip DMZ (DHCP dan DNS SERVER) pada SURABAYA demi menjaga keamanan.
+yang memiliki ip DMZ (DHCP dan DNS SERVER) pada SURABAYA demi menjaga keamanan. Pada UML Surabaya, ketikkan syntax berikut :
 
-```iptables -A FORWARD -d 10.151.73.168/29 -s 10.151.72.84 -p tcp --dport 22 -j DROP```
+```iptables -A FORWARD -d 10.151.73.168/29 -s 10.151.72.85 -p tcp --dport 22 -j DROP```
+![nomer 2](https://user-images.githubusercontent.com/55182072/103225894-82ca1500-495d-11eb-952b-2962301c3c0f.PNG)
 
 **3).** Karena tim kalian maksimal terdiri dari 3 orang, Bibah meminta kalian untuk membatasi DHCP
 dan DNS server hanya boleh menerima maksimal 3 koneksi ICMP secara bersamaan yang berasal dari
