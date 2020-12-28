@@ -64,3 +64,15 @@ semua aturan iptables harus disimpan pada sistem atau paling tidak kalian menyed
 backup.**
 
 ## Jawaban :
+**A).** Membuat file topologi baru dengan mengketikkan ```nano topologi.sh``` seperti gambar berikut
+
+![NANO TOPOLOGI SH](https://user-images.githubusercontent.com/55182072/103221597-9c675e80-4955-11eb-8a37-0e883d85b092.PNG)
+
+**B).** Teknik ```CIDR (Classless Inter Domain Routing)```
+
+- Buat pembagian subnet kemudian hitung subnet pada tiap bagian sebagai gambar dibawah ini :
+![PEMB SUBNET](https://user-images.githubusercontent.com/55182072/103223138-2f08fd00-4958-11eb-9d5d-e25f16df5264.PNG)
+
+- Hitung IP Address yang dibutuhkan (Jumlah Host, Router, dan Server). Pada soal ini ada kurang lebih 422 IP Address maka subnet yang dipakai untuk membuat pohon IP yaitu subnet 21.
+
+![PENGHITUNGAN IP ADDR](https://user-images.githubusercontent.com/55182072/103221953-5eb70580-4956-11eb-90fe-6784fc491bc4.PNG)
