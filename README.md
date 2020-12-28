@@ -96,9 +96,10 @@ yang memiliki ip DMZ (DHCP dan DNS SERVER) pada SURABAYA demi menjaga keamanan. 
 
 **3).** Karena tim kalian maksimal terdiri dari 3 orang, Bibah meminta kalian untuk membatasi DHCP
 dan DNS server hanya boleh menerima maksimal 3 koneksi ICMP secara bersamaan yang berasal dari
-mana saja menggunakan iptables pada masing masing server, selebihnya akan di DROP.
+mana saja menggunakan iptables pada masing masing server, selebihnya akan di DROP. Pada UML MOJOKERTO dan MALANG memasukkan syntax seperti dibawah ini :
 
 ```iptables -A INPUT -m connlimit --connlimit-above 3 --connlimit-mask 0 -j DROP```
+![nomer 3](https://user-images.githubusercontent.com/55182072/103226175-18fe3b00-495e-11eb-93ba-c4b2f15bc302.PNG)
 
 **4).** Akses dari subnet SIDOARJO hanya diperbolehkan pada pukul 07.00 - 17.00 pada hari Senin
 sampai Jumat.
