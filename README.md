@@ -81,28 +81,31 @@ backup.**
 ![POHON IP](https://user-images.githubusercontent.com/55182072/103223942-a3906b80-4959-11eb-8ebe-1042c8cc94c8.PNG)
 
 **1).** Agar topologi yang kalian buat dapat mengakses keluar, kalian diminta untuk mengkonfigurasi
-SURABAYA menggunakan iptables, namun Bibah tidak ingin kalian menggunakan
-MASQUERADE. Setting pada UML Surabaya dengan syntax sebagai berikut :
+**SURABAYA** menggunakan iptables, namun Bibah tidak ingin kalian menggunakan
+**MASQUERADE**. Setting pada UML **Surabaya** dengan syntax sebagai berikut :
 
 ```iptables -t nat -A POSTROUTING -s 192.168.0.0/16 -o eth0 -j SNAT --to-source 10.151.72.85```
+
 ![nomer 1](https://user-images.githubusercontent.com/55182072/103225439-7e512c80-495c-11eb-8d11-3e6791eff497.PNG)
 
 
 **2).** Kalian diminta untuk mendrop semua akses SSH dari luar Topologi (UML) Kalian pada server
-yang memiliki ip DMZ (DHCP dan DNS SERVER) pada SURABAYA demi menjaga keamanan. Pada UML Surabaya, ketikkan syntax berikut :
+yang memiliki ip DMZ (DHCP dan DNS SERVER) pada **SURABAYA** demi menjaga keamanan. Pada UML **Surabaya**, ketikkan syntax berikut :
 
 ```iptables -A FORWARD -d 10.151.73.168/29 -s 10.151.72.85 -p tcp --dport 22 -j DROP```
+
 ![nomer 2](https://user-images.githubusercontent.com/55182072/103225894-82ca1500-495d-11eb-952b-2962301c3c0f.PNG)
 
-**3).** Karena tim kalian maksimal terdiri dari 3 orang, Bibah meminta kalian untuk membatasi DHCP
-dan DNS server hanya boleh menerima maksimal 3 koneksi ICMP secara bersamaan yang berasal dari
-mana saja menggunakan iptables pada masing masing server, selebihnya akan di DROP. Pada UML MOJOKERTO dan MALANG memasukkan syntax seperti dibawah ini :
+**3).** Karena tim kalian maksimal terdiri dari 3 orang, Bibah meminta kalian untuk membatasi **DHCP**
+dan **DNS server** hanya boleh menerima maksimal 3 koneksi ICMP secara bersamaan yang berasal dari
+mana saja menggunakan iptables pada masing masing server, selebihnya akan di **DROP**. Pada UML **MOJOKERTO** dan **MALANG** memasukkan syntax seperti dibawah ini :
 
 ```iptables -A INPUT -m connlimit --connlimit-above 3 --connlimit-mask 0 -j DROP```
+
 ![nomer 3](https://user-images.githubusercontent.com/55182072/103226175-18fe3b00-495e-11eb-93ba-c4b2f15bc302.PNG)
 
-**4).** Akses dari subnet SIDOARJO hanya diperbolehkan pada pukul 07.00 - 17.00 pada hari Senin
-sampai Jumat. Pada UML Malang, ketikkan syntax sebagai berikut :
+**4).** Akses dari subnet **SIDOARJO** hanya diperbolehkan pada pukul 07.00 - 17.00 pada hari Senin
+sampai Jumat. Pada UML **Malang**, ketikkan syntax sebagai berikut :
 
 ```iptables -A INPUT -s 192.168.0.0/24 -m time --timestart 00:00 --timestop 06:59 --weekdays Mon,Tue,Wed,Thu,Fri -j REJECT
 iptables -A INPUT -s 192.168.0.0/24 -m time --timestart 17:01 --timestop 23:59 --weekdays Mon,Tue,Wed,Thu,Fri -j REJECT
@@ -110,8 +113,33 @@ iptables -A INPUT -s 192.168.0.0/24 -m time --weekdays Sat,Sun -j REJECT
 ```
 ![nomer 4](https://user-images.githubusercontent.com/55182072/103226483-d0934d00-495e-11eb-9944-82385968f633.PNG)
 
-**5).** Akses dari subnet GRESIK hanya diperbolehkan pada pukul 17.00 hingga pukul 07.00 setiap
-harinya. Selain itu paket akan di REJECT. Pada UML Malang, ketikkan syntax seperti dibawah ini :
+**5).** Akses dari subnet **GRESIK** hanya diperbolehkan pada pukul 17.00 hingga pukul 07.00 setiap
+harinya. Selain itu paket akan di REJECT. Pada UML **Malang**, ketikkan syntax seperti dibawah ini :
 
 ```iptables -A INPUT -s 192.168.1.0/24 -m time --timestart 07:01 --timestop 16:59 -j REJECT```
+
 ![nomer 5](https://user-images.githubusercontent.com/55182072/103226639-2e279980-495f-11eb-89aa-afd3b1e23d48.PNG)
+
+**6).** Bibah ingin **SURABAYA** disetting sehingga setiap
+request dari client yang mengakses DNS Server akan didistribusikan secara bergantian pada
+**PROBOLINGGO** port 80 dan **MADIUN** port 80.
+
+```
+iptables -t nat -A PREROUTING -p tcp -d 10.151.73.170 -m statistic --mode nth --every 2 --packet 0 -j DNAT --to-destination 192.168.0.11:80
+iptables -t nat -A PREROUTING -p tcp -d 10.151.73.170 -j DNAT --to-destination 192.168.0.10:80
+iptables -t nat -A POSTROUTING -p tcp -d 192.168.0.11 --dport 80 -j SNAT --to-source 10.151.73.170
+iptables -t nat -A POSTROUTING -p tcp -d 192.168.0.10 --dport 80 -j SNAT --to-source 10.151.73.170
+```
+**7).** Bibah ingin agar semua paket didrop oleh firewall (dalam topologi) tercatat dalam log pada setiap
+UML yang memiliki aturan drop.
+Bibah berterima kasih kepada kalian karena telah mau membantunya. Bibah juga mengingatkan agar
+semua aturan iptables harus disimpan pada sistem atau paling tidak kalian menyediakan script sebagai
+backup.
+
+```
+iptables -N LOGGING
+iptables -A INPUT -j LOGGING
+iptables -A OUTPUT -j LOGGING
+iptables -A LOGGING -j LOG --log-prefix "IPTables-Dropped: " --log-level 4
+iptables -A LOGGING -j DROP
+```
