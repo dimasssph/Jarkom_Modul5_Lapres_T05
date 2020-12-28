@@ -82,9 +82,11 @@ backup.**
 
 **1).** Agar topologi yang kalian buat dapat mengakses keluar, kalian diminta untuk mengkonfigurasi
 SURABAYA menggunakan iptables, namun Bibah tidak ingin kalian menggunakan
-MASQUERADE
+MASQUERADE. Setting pada UML Surabaya dengan syntax sebagai berikut :
 
 ```iptables -t nat -A POSTROUTING -s 192.168.0.0/16 -o eth0 -j SNAT --to-source 10.151.72.85```
+![nomer 1](https://user-images.githubusercontent.com/55182072/103225439-7e512c80-495c-11eb-8d11-3e6791eff497.PNG)
+
 
 **2).** Kalian diminta untuk mendrop semua akses SSH dari luar Topologi (UML) Kalian pada server
 yang memiliki ip DMZ (DHCP dan DNS SERVER) pada SURABAYA demi menjaga keamanan.
