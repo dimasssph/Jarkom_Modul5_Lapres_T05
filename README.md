@@ -102,13 +102,16 @@ mana saja menggunakan iptables pada masing masing server, selebihnya akan di DRO
 ![nomer 3](https://user-images.githubusercontent.com/55182072/103226175-18fe3b00-495e-11eb-93ba-c4b2f15bc302.PNG)
 
 **4).** Akses dari subnet SIDOARJO hanya diperbolehkan pada pukul 07.00 - 17.00 pada hari Senin
-sampai Jumat.
+sampai Jumat. Pada UML Malang, ketikkan syntax sebagai berikut :
 
 ```iptables -A INPUT -s 192.168.0.0/24 -m time --timestart 00:00 --timestop 06:59 --weekdays Mon,Tue,Wed,Thu,Fri -j REJECT
 iptables -A INPUT -s 192.168.0.0/24 -m time --timestart 17:01 --timestop 23:59 --weekdays Mon,Tue,Wed,Thu,Fri -j REJECT
 iptables -A INPUT -s 192.168.0.0/24 -m time --weekdays Sat,Sun -j REJECT
 ```
+![nomer 4](https://user-images.githubusercontent.com/55182072/103226483-d0934d00-495e-11eb-9944-82385968f633.PNG)
+
 **5).** Akses dari subnet GRESIK hanya diperbolehkan pada pukul 17.00 hingga pukul 07.00 setiap
-harinya. Selain itu paket akan di REJECT.
+harinya. Selain itu paket akan di REJECT. Pada UML Malang, ketikkan syntax seperti dibawah ini :
 
 ```iptables -A INPUT -s 192.168.1.0/24 -m time --timestart 07:01 --timestop 16:59 -j REJECT```
+![nomer 5](https://user-images.githubusercontent.com/55182072/103226639-2e279980-495f-11eb-89aa-afd3b1e23d48.PNG)
