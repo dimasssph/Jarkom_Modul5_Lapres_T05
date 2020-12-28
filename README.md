@@ -122,7 +122,7 @@ harinya. Selain itu paket akan di REJECT. Pada UML **Malang**, ketikkan syntax s
 
 **6).** Bibah ingin **SURABAYA** disetting sehingga setiap
 request dari client yang mengakses DNS Server akan didistribusikan secara bergantian pada
-**PROBOLINGGO** port 80 dan **MADIUN** port 80.
+**PROBOLINGGO** port 80 dan **MADIUN** port 80. Pada UML **Surabaya** ketikkan syntax dibawah ini :
 
 ```
 iptables -t nat -A PREROUTING -p tcp -d 10.151.73.170 -m statistic --mode nth --every 2 --packet 0 -j DNAT --to-destination 192.168.0.11:80
@@ -130,11 +130,14 @@ iptables -t nat -A PREROUTING -p tcp -d 10.151.73.170 -j DNAT --to-destination 1
 iptables -t nat -A POSTROUTING -p tcp -d 192.168.0.11 --dport 80 -j SNAT --to-source 10.151.73.170
 iptables -t nat -A POSTROUTING -p tcp -d 192.168.0.10 --dport 80 -j SNAT --to-source 10.151.73.170
 ```
+
+![nomer 6](https://user-images.githubusercontent.com/55182072/103227512-18b36f00-4961-11eb-82d8-d17eeda37fb3.PNG)
+
 **7).** Bibah ingin agar semua paket didrop oleh firewall (dalam topologi) tercatat dalam log pada setiap
 UML yang memiliki aturan drop.
 Bibah berterima kasih kepada kalian karena telah mau membantunya. Bibah juga mengingatkan agar
 semua aturan iptables harus disimpan pada sistem atau paling tidak kalian menyediakan script sebagai
-backup.
+backup. Pada UML UML **Malang**, **Mojokerto** dan **Surabaya**. ketikkan syntax sebagai berikut :
 
 ```
 iptables -N LOGGING
@@ -143,3 +146,7 @@ iptables -A OUTPUT -j LOGGING
 iptables -A LOGGING -j LOG --log-prefix "IPTables-Dropped: " --log-level 4
 iptables -A LOGGING -j DROP
 ```
+
+![nomer 7](https://user-images.githubusercontent.com/55182072/103227515-19e49c00-4961-11eb-8696-9775f41ae702.PNG)
+
+## Terimakasih atas perhatiannya, semoga sukses!
